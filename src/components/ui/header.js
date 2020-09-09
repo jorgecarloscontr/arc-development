@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/Toolbar';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
@@ -110,17 +111,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Header = () => {
+const Header = ({ value, setValue, selectedIndex, setSelectedIndex }) => {
   const classes = useStyles();
   const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down('md')); // return true if it's bel9ow of md
 
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleChange = (e, val) => {
     setValue(val);
@@ -209,6 +208,7 @@ const Header = () => {
           break;
       }
     });
+    // eslint-disable-next-line
   }, [value, menuOptions, selectedIndex, routes]);
 
   const tabs = (
@@ -350,6 +350,13 @@ const Header = () => {
       <div className={classes.toolBarMargin} />
     </>
   );
+};
+
+Header.propTypes = {
+  value: PropTypes.number.isRequired,
+  setValue: PropTypes.func.isRequired,
+  selectedIndex: PropTypes.number.isRequired,
+  setSelectedIndex: PropTypes.func.isRequired,
 };
 
 export default Header;
